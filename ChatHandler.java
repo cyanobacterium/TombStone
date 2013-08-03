@@ -10,6 +10,7 @@ import cpw.mods.fml.common.FMLLog;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.ForgeSubscribe;
 
@@ -31,6 +32,7 @@ public class ChatHandler extends CommandBase {
     {
         return 0;
     }
+	
 
 	@Override
 	public void processCommand(ICommandSender var1, String[] var2) {
@@ -53,6 +55,14 @@ public class ChatHandler extends CommandBase {
         	chatMessage += "None\n";
         
         //Send the chat message to the client
-        var1.sendChatToPlayer(chatMessage);
+        ChatMessageComponent msg = new ChatMessageComponent();  
+        msg.func_111072_b(chatMessage); // this line here is going to cause problems when mcp de-obfuscates this method
+        //var1.sendChatToPlayer(chatMessage);
+        var1.sendChatToPlayer(msg);
+	}
+
+	@Override
+	public String getCommandUsage(ICommandSender icommandsender) {
+		return "tombstone";
 	}
 }

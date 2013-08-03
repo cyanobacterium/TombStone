@@ -11,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
 public class TombStoneRenderer extends TileEntitySpecialRenderer
@@ -25,9 +26,9 @@ public class TombStoneRenderer extends TileEntitySpecialRenderer
         GL11.glPushMatrix();
         GL11.glScalef(1.0F, 1.0F, 1.0F);
 		
-        this.bindTextureByName("/mods/TombStone/textures/tombstone.png");
+        this.func_110628_a(TombStone.tombstoneTex1);
 		this.tombModel.renderBase();
-        this.bindTextureByName("/mods/TombStone/textures/tombstone2.png");
+        this.func_110628_a(TombStone.tombstoneTex2);
 		this.tombModel.renderHeadstone();
 		
 		GL11.glPopMatrix();

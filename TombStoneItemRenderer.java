@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 public class TombStoneItemRenderer implements IItemRenderer
@@ -62,9 +63,9 @@ public class TombStoneItemRenderer implements IItemRenderer
 
     GL11.glScalef(1.0F, 1.0F, 1.0F);
 	
-    FMLClientHandler.instance().getClient().renderEngine.bindTexture("/mods/TombStone/textures/tombstone.png");
+    FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TombStone.tombstoneTex1);
 	this.modelBox.renderBase();
-	FMLClientHandler.instance().getClient().renderEngine.bindTexture("/mods/TombStone/textures/tombstone2.png");
+	FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TombStone.tombstoneTex2);
 	this.modelBox.renderHeadstone();
 	
 	// re-enable lighting

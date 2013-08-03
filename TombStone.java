@@ -18,6 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.ModLoader;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -37,10 +38,15 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraftforge.common.Configuration;
 
-@Mod(modid="TombStone", name="TombStone", version="0.5.1")
+@Mod(modid="tombstone", name="TombStone", version="0.6.0")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 public class TombStone {
 	public static int tombStoneBlockId;
+	
+	// texture instances
+	public static ResourceLocation tombstoneTex1;
+	public static ResourceLocation tombstoneTex2;
+	public static ResourceLocation tombstoneGUI;
 	
 	public static TombStoneBlock tombStoneBlock;
 	
@@ -48,7 +54,7 @@ public class TombStone {
 	public static List<TombStoneTileEntity> tombList = new ArrayList<TombStoneTileEntity>();
 	
 	// The instance of your mod that Forge uses.
-	@Instance("TombStone")
+	@Instance("tombstone")
 	public static TombStone instance;
 	
 	// Says where the client and server 'proxy' code is loaded.
@@ -63,6 +69,10 @@ public class TombStone {
 		tombStoneBlockId = config.getBlock("RandomBlock", 3000).getInt();
 		tombStoneBlock = new TombStoneBlock(tombStoneBlockId);
 		config.save();
+		
+		tombstoneTex1 = new ResourceLocation("tombstone:textures/models/tombstone.png");
+		tombstoneTex2 = new ResourceLocation("tombstone:textures/models/tombstone2.png");
+		tombstoneGUI = new ResourceLocation("minecraft:textures/gui/container/generic_54.png");
 	}
 	
 	@Init

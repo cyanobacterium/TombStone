@@ -211,7 +211,7 @@ public class TombStoneBlock extends BlockContainer {
     	if(explosionRecover)
     		tempEntity = (TombStoneTileEntity) par1World.getBlockTileEntity(par2, par3, par4);    	
     }
-    
+    @Override
     public void onBlockDestroyedByExplosion(World par1World, int par2, int par3, int par4, Explosion expl)
     {
 		//DEBUG//
