@@ -38,7 +38,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraftforge.common.Configuration;
 
-@Mod(modid="tombstone", name="TombStone", version="0.6.0")
+@Mod(modid="tombstone", name="TombStone", version="0.7.0")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 public class TombStone {
 	public static int tombStoneBlockId;
@@ -49,6 +49,16 @@ public class TombStone {
 	public static ResourceLocation tombstoneGUI;
 	
 	public static TombStoneBlock tombStoneBlock;
+	
+	public static boolean canCraft = true;
+	
+	public static String dateFormat = "m/d/y";
+	
+	/** security level: 
+	 * 0=anyone can loot from tombstone, 
+	 * 1=only same team can loot from tombstone, 
+	 * 2+=only the owner can loot from tombstone */
+	public static int security = 0;
 	
 	//Keeps track of the existing tombs
 	public static List<TombStoneTileEntity> tombList = new ArrayList<TombStoneTileEntity>();
@@ -66,8 +76,14 @@ public class TombStone {
 		// Stub Method
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
-		tombStoneBlockId = config.getBlock("RandomBlock", 3000).getInt();
+		tombStoneBlockId = config.getBlock("blockID", 3000).getInt();
 		tombStoneBlock = new TombStoneBlock(tombStoneBlockId);
+		
+		canCraft = config.get("Options", "can_craft_tombstones", canCraft,"if true, then decorative tombstones can be crafted").getBoolean(false);
+		security = config.get("Options", "security_level", security, "Security access to tombstone loot: 0=public, 1=team, 2=owner only").getInt();
+		dateFormat = config.get("Options", "date_format", "m/d/y","Format of date on tombstones. American style is m/d/y while international standard is y-m-d").getString();
+		
+		
 		config.save();
 		
 		tombstoneTex1 = new ResourceLocation("tombstone:textures/models/tombstone.png");
@@ -101,8 +117,10 @@ public class TombStone {
 		ItemStack signStack = new ItemStack(Item.sign);
 		
 		//3x3 shaped crafting
-		GameRegistry.addRecipe(new ItemStack(tombStoneBlock), " x ", "xyx", "xxx",
-		    'x', stoneStack, 'y', signStack);    
+		if(canCraft){
+			GameRegistry.addRecipe(new ItemStack(tombStoneBlock), " x ", "xyx", "xxx",
+		    'x', stoneStack, 'y', signStack);
+		}    
 	}
 	
 	@PostInit

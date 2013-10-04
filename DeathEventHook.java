@@ -37,6 +37,7 @@ public class DeathEventHook {
 		ArrayList<EntityItem> drops = event.drops;
 		World world = deadPlayer.worldObj;
 		
+		
 		//DEBUG//
 		//FMLLog.log(Level.WARNING, "[TombStone] onEntityDeath(): " + attackSource.getDeathMessage(deadPlayer));
 		
@@ -46,7 +47,19 @@ public class DeathEventHook {
 		int tombY = (int) Math.floor(deadPlayer.posY);
 		int tombZ = (int) Math.floor(deadPlayer.posZ);
 		
-		String dateOfDeath = world.getCurrentDate().get(Calendar.MONTH) + "/" + world.getCurrentDate().get(Calendar.DAY_OF_MONTH) + "/" + world.getCurrentDate().get(Calendar.YEAR);
+		// move down to surface if in air
+		while(tombY > 0 && world.isAirBlock(tombX, tombY-1, tombZ)){
+			tombY--;
+		}
+		// move up to surface if buried
+		while(tombY < 255 && world.isAirBlock(tombX, tombY, tombZ) == false){
+			tombY++;
+		}
+		
+		String dateOfDeath = TombStone.dateFormat
+				.replace("m", world.getCurrentDate().get(Calendar.MONTH)+"")
+				.replace("d",  world.getCurrentDate().get(Calendar.DAY_OF_MONTH)+"")
+				.replace("y",  world.getCurrentDate().get(Calendar.YEAR)+"");
 		String deathMessage = attackSource.getDeathMessage(deadPlayer) + " here\n Died " + dateOfDeath;
 		
 		//Place the tombstone

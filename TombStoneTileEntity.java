@@ -18,8 +18,8 @@ public class TombStoneTileEntity extends TileEntity implements IInventory {
 	private ItemStack[] inv;
 	
 	//NBT tag(s)
-	private String owner = "Nobody";
-	private String deathText = "Nobody died\n Died Never";
+	private String owner = "R.I.P.";
+	private String deathText = "= =\n= =";
 	private boolean isCrafted = true;
 	private boolean isAddedToTombList = false;
 	
