@@ -38,7 +38,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraftforge.common.Configuration;
 
-@Mod(modid="tombstone", name="TombStone", version="0.7.1")
+@Mod(modid="tombstone", name="TombStone", version="0.7.2")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 public class TombStone {
 	public static int tombStoneBlockId;

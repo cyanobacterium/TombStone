@@ -215,8 +215,9 @@ public class TombStoneBlock extends BlockContainer {
     	super.dropBlockAsItemWithChance(par1World, par2, par3, par4, par5, par6, par7);
     	
     	//If we're trying to recover from an explosion, backup the tile entity
-    	if(explosionRecover)
-    		tempEntity = (TombStoneTileEntity) par1World.getBlockTileEntity(par2, par3, par4);    	
+    	if(explosionRecover){
+    		tempEntity = (TombStoneTileEntity) par1World.getBlockTileEntity(par2, par3, par4);
+    	}
     }
     @Override
     public void onBlockDestroyedByExplosion(World par1World, int par2, int par3, int par4, Explosion expl)
@@ -229,7 +230,7 @@ public class TombStoneBlock extends BlockContainer {
 		//Ergo the location where the tombstone is about to exist has already been marked for demolition
 		
 		//If destroyed by explosion place it right back
-		par1World.setBlock(par2, par3, par4, TombStone.instance.tombStoneBlockId, 0, 1 | 2);
+		par1World.setBlock(par2, par3, par4, TombStone.instance.tombStoneBlockId, tempEntity.blockMetadata, 1 | 2);
 		TombStoneTileEntity blockTileEntity = (TombStoneTileEntity) par1World.getBlockTileEntity(par2, par3, par4);
 		blockTileEntity.setOwner(tempEntity.getOwner());
 		blockTileEntity.setDeathText(tempEntity.getDeathText());
@@ -239,6 +240,8 @@ public class TombStoneBlock extends BlockContainer {
 			ItemStack playerItem = tempEntity.getStackInSlot(i);
 			blockTileEntity.setInventorySlotContents(i, playerItem);
 		}
+		// drop Tombstone down to ground
+		
 
 		tempEntity = null;
 		explosionRecover = false;
