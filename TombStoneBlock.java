@@ -14,6 +14,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -36,10 +37,10 @@ public class TombStoneBlock extends BlockContainer {
 	public TombStoneBlock (int id) {
 		super(id, Material.rock);
 		setHardness(2.0F);
-		setResistance(5000.0F);	//Set well above an normal material so that it's immune to explosions
+		setResistance(2000.0F);	//Set well above an normal material so that it's immune to explosions
 		setStepSound(Block.soundStoneFootstep);
 		setUnlocalizedName("Tombstone Block");
-		setCreativeTab(CreativeTabs.tabBlock);
+		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 	
 	@Override
@@ -82,7 +83,7 @@ public class TombStoneBlock extends BlockContainer {
 			//TODO - Do something
 			quantityDropped = 1;
 		}
-			
+		world.setBlockMetadataWithNotify(x, y, z, 0, 0);
 		super.breakBlock(world, x, y, z, par5, par6);
 		
 		for(int i=0; i<TombStone.instance.tombList.size(); i++)
@@ -106,6 +107,12 @@ public class TombStoneBlock extends BlockContainer {
 			quantityDropped = 0;
 	}
 
+	@Override public void onBlockPlacedBy(World w, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack) {
+		super.onBlockPlacedBy(w, x, y, z, entity, itemStack);
+		int rot = TombStoneTileEntity.getRotationFromEntity(entity);
+		w.setBlockMetadataWithNotify(x, y, z, rot, 1 | 2);
+	}
+	
 	@Override
     public int quantityDropped(Random par1Random)
     {

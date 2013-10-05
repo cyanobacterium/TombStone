@@ -23,6 +23,8 @@ public class TombStoneRenderer extends TileEntitySpecialRenderer
 		GL11.glPushMatrix();
 		
         GL11.glTranslatef((float)par2 + 0.5F, (float)par4 + 0.75F * 1.0F, (float)par6 + 0.5F);
+        float rotation = (float)(tileEntity.getBlockMetadata() * 360) / 16.0F;
+        GL11.glRotatef(-rotation, 0.0F, 1.0F, 0.0F);
         GL11.glPushMatrix();
         GL11.glScalef(1.0F, 1.0F, 1.0F);
 		

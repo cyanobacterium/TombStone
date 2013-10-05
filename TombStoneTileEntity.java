@@ -3,6 +3,7 @@ package TombStone;
 import java.util.logging.Level;
 
 import cpw.mods.fml.common.FMLLog;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -12,6 +13,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 
 public class TombStoneTileEntity extends TileEntity implements IInventory {
 
@@ -78,6 +80,14 @@ public class TombStoneTileEntity extends TileEntity implements IInventory {
 		this.deathText = newDeathText;
 	}
 	
+	
+	public static int getRotationFromEntity(Entity p){
+		return MathHelper.floor_double((double)((p.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 0x0F;
+	}
+	
+	public void setRotation(int rot){
+		this.blockMetadata = rot;
+	}
 	///////////////////////////////////////
 	
 	@Override

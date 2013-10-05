@@ -18,6 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet130UpdateSign;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
@@ -42,14 +43,16 @@ public class DeathEventHook {
 		//FMLLog.log(Level.WARNING, "[TombStone] onEntityDeath(): " + attackSource.getDeathMessage(deadPlayer));
 		
 		//Calculate the spot to put the tombstone
-		//TODO - Make this more intelligent
 		int tombX = (int) Math.floor(deadPlayer.posX);
 		int tombY = (int) Math.floor(deadPlayer.posY);
 		int tombZ = (int) Math.floor(deadPlayer.posZ);
+		int rotation = TombStoneTileEntity.getRotationFromEntity(deadPlayer);
 		
 		// move down to surface if in air
-		while(tombY > 0 && world.isAirBlock(tombX, tombY-1, tombZ)){
-			tombY--;
+		if(world.isAirBlock(tombX, tombY, tombZ)){
+			while(tombY > 0 && world.isAirBlock(tombX, tombY-1, tombZ)){
+				tombY--;
+			}
 		}
 		// move up to surface if buried
 		while(tombY < 255 && world.isAirBlock(tombX, tombY, tombZ) == false){
@@ -63,7 +66,7 @@ public class DeathEventHook {
 		String deathMessage = attackSource.getDeathMessage(deadPlayer) + " here\n Died " + dateOfDeath;
 		
 		//Place the tombstone
-		world.setBlock(tombX, tombY, tombZ, TombStone.instance.tombStoneBlockId, 0, 1 | 2);
+		world.setBlock(tombX, tombY, tombZ, TombStone.instance.tombStoneBlockId, rotation, 1 | 2);
 		TombStoneTileEntity blockTileEntity = (TombStoneTileEntity) world.getBlockTileEntity(tombX, tombY, tombZ);
 		
 		//Move all items from the list to the tombstone inventory
@@ -76,6 +79,7 @@ public class DeathEventHook {
 		blockTileEntity.setOwner(deadPlayer.getEntityName());
 		blockTileEntity.setDeathText(deathMessage);
 		blockTileEntity.setIsCrafted(false);
+	//	blockTileEntity.setRotation(rotation); // rotation handled by metadata (just like a sign)
 		
 		event.setCanceled(true);
 	}
