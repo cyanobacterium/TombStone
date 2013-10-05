@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet130UpdateSign;
 import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.scoreboard.Team;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -47,6 +48,14 @@ public class DeathEventHook {
 		int tombY = (int) Math.floor(deadPlayer.posY);
 		int tombZ = (int) Math.floor(deadPlayer.posZ);
 		int rotation = TombStoneTileEntity.getRotationFromEntity(deadPlayer);
+		// get team info for security
+		Team t = deadPlayer.getTeam();
+		String teamName;
+		if(t != null){
+			teamName = t.func_96661_b();
+		} else {
+			teamName = TombStoneTileEntity.nonteamName;
+		}
 		
 		// move down to surface if in air
 		if(world.isAirBlock(tombX, tombY, tombZ)){
@@ -77,6 +86,7 @@ public class DeathEventHook {
 		}
 		//Set the other meta-data for the tile entity
 		blockTileEntity.setOwner(deadPlayer.getEntityName());
+		blockTileEntity.setTeam(teamName);
 		blockTileEntity.setDeathText(deathMessage);
 		blockTileEntity.setIsCrafted(false);
 	//	blockTileEntity.setRotation(rotation); // rotation handled by metadata (just like a sign)

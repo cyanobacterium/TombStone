@@ -21,6 +21,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.scoreboard.Team;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
@@ -65,11 +66,43 @@ public class TombStoneBlock extends BlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int idk, float what, float these, float are) {
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-		if (tileEntity == null ) { // isSneaking check no longer valid (now part of default Minecraft behavior
+		if (tileEntity == null  || !(tileEntity instanceof TombStoneTileEntity)) { // isSneaking check no longer valid (now part of default Minecraft behavior
 			return false;
 		}
+		TombStoneTileEntity tomb = (TombStoneTileEntity)tileEntity;
+		// security check
+		switch (TombStone.security){
+		case 0:
+			// no security, open to public looting
+			player.openGui(TombStone.instance, 0, world, x, y, z);
+			break;
+		case 1:
+			// team mode
+			if(player.getEntityName().equals(tomb.getOwner())){ 
+				// this is their tomb
+				player.openGui(TombStone.instance, 0, world, x, y, z);
+			}
+			Team looterTeam = player.getTeam(); // Team.func_96661_b() -> team name
+			if(looterTeam  == null){
+				// looter not on any team, can only loot their own tombs
+				break;
+			}
+			String looterTeamName = looterTeam.func_96661_b();
+			String tombstoneTeamName = tomb.getTeamName();
+		//	FMLLog.log(Level.WARNING, "[TombStone] onBlockActivated(...): " + looterTeam.func_96661_b() + " =?= " + tombstoneTeamName); // debugging
+			if(tombstoneTeamName.equals(TombStoneTileEntity.nonteamName) || tombstoneTeamName.equals(looterTeamName)){
+				// those on teams can loot the tombs of those who died while not on a team (teamless players at disadvantage)
+				player.openGui(TombStone.instance, 0, world, x, y, z);
+			}
+			break;
+		default:
+			if(player.getEntityName().equals(tomb.getOwner())){
+				player.openGui(TombStone.instance, 0, world, x, y, z);
+			}
+			break;
+		}
 		
-		player.openGui(TombStone.instance, 0, world, x, y, z);
+		
 		return true;
 	}
 	
@@ -235,6 +268,7 @@ public class TombStoneBlock extends BlockContainer {
 		blockTileEntity.setOwner(tempEntity.getOwner());
 		blockTileEntity.setDeathText(tempEntity.getDeathText());
 		blockTileEntity.setIsCrafted(tempEntity.isCrafted());
+		blockTileEntity.setTeam(tempEntity.getTeamName());
 		for(int i=0; i<tempEntity.getSizeInventory(); i++)
 		{
 			ItemStack playerItem = tempEntity.getStackInSlot(i);

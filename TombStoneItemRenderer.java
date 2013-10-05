@@ -34,17 +34,17 @@ public class TombStoneItemRenderer implements IItemRenderer
         switch(type)
         {
             case ENTITY:{
-                renderTombStoneItem(0f, 0f, 0f, 0.5f);
+                renderTombStoneItem(0f, 0f, 0f, 1.0f);
                 return;
             }
              
             case EQUIPPED:{
-                renderTombStoneItem(0f, 1f, 1f, 0.5f);
+                renderTombStoneItem(-0.5f, -1.05f, -0.5f, 1.5f);
                 return;
             }
                  
             case INVENTORY:{
-                renderTombStoneItem(0f, 0f, 0f, 0.5f);
+                renderTombStoneItem(0f, 0f, 0f, 1.0f);
                 return;
             }
              
@@ -61,7 +61,7 @@ public class TombStoneItemRenderer implements IItemRenderer
 	
     GL11.glTranslatef((float)x + 0.5F, (float)y + 0.75F * 1.0F, (float)z + 0.5F);
 
-    GL11.glScalef(1.0F, 1.0F, 1.0F);
+    GL11.glScalef(scale, scale, scale);
 	
     FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TombStone.tombstoneTex1);
 	this.modelBox.renderBase();

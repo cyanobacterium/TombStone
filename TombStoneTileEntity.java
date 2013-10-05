@@ -18,9 +18,10 @@ import net.minecraft.util.MathHelper;
 public class TombStoneTileEntity extends TileEntity implements IInventory {
 
 	private ItemStack[] inv;
-	
+	static final String nonteamName = ""; 
 	//NBT tag(s)
 	private String owner = ".";
+	private String ownerTeam = nonteamName;
 	private String deathText = "R.I.P.";
 	private boolean isCrafted = true;
 	private boolean isAddedToTombList = false;
@@ -65,9 +66,18 @@ public class TombStoneTileEntity extends TileEntity implements IInventory {
 		return this.owner;
 	}
 	
+	public String getTeamName(){
+		return ownerTeam;
+	}
+	
 	public void setOwner(String newOwner)
 	{
 		this.owner = newOwner;
+	}
+	
+	public void setTeam(String newTeamName)
+	{
+		ownerTeam = newTeamName;
 	}
 	
 	public String getDeathText()
@@ -157,6 +167,7 @@ public class TombStoneTileEntity extends TileEntity implements IInventory {
 		owner = tagCompound.getString("owner");
 		deathText = tagCompound.getString("deathText");
 		isCrafted = tagCompound.getBoolean("isCrafted");
+		if(tagCompound.hasKey("team")) ownerTeam = tagCompound.getString("team");
 		
 		//FMLLog.log(Level.WARNING, "Loaded Tombstone: owner=%s, deathText=%s, isCrafted=%b", owner, deathText, isCrafted);
 	    
@@ -175,6 +186,7 @@ public class TombStoneTileEntity extends TileEntity implements IInventory {
 		super.writeToNBT(tagCompound);
 		
 		tagCompound.setString("owner", owner);
+		tagCompound.setString("team", ownerTeam);
 		tagCompound.setString("deathText", deathText);
 		tagCompound.setBoolean("isCrafted", isCrafted);
 		                
