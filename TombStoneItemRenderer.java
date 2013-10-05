@@ -30,7 +30,6 @@ public class TombStoneItemRenderer implements IItemRenderer
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
-    	// TODO: Figure out why it is invisible in your hand
         switch(type)
         {
             case ENTITY:{
@@ -66,9 +65,9 @@ public class TombStoneItemRenderer implements IItemRenderer
 
     GL11.glScalef(scale, scale, scale);
 	
-    FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TombStone.tombstoneTex1);
+    FMLClientHandler.instance().getClient().renderEngine.getTexture(TombStone.tombstoneTex1);
 	this.modelBox.renderBase();
-	FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TombStone.tombstoneTex2);
+	FMLClientHandler.instance().getClient().renderEngine.getTexture(TombStone.tombstoneTex2);
 	this.modelBox.renderHeadstone();
 	
 	// re-enable lighting

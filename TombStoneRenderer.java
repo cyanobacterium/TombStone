@@ -28,9 +28,9 @@ public class TombStoneRenderer extends TileEntitySpecialRenderer
         GL11.glPushMatrix();
         GL11.glScalef(1.0F, 1.0F, 1.0F);
 		
-        this.func_110628_a(TombStone.tombstoneTex1);
+        this.bindTexture(TombStone.tombstoneTex1);
 		this.tombModel.renderBase();
-        this.func_110628_a(TombStone.tombstoneTex2);
+        this.bindTexture(TombStone.tombstoneTex2);
 		this.tombModel.renderHeadstone();
 		
 		GL11.glPopMatrix();

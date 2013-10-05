@@ -213,7 +213,7 @@ public class TombStoneTileEntity extends TileEntity implements IInventory {
 	@Override
     public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
     {
-		readFromNBT(pkt.customParam1);
+		readFromNBT(pkt.data);
 		
 		boolean foundDuplicate = false;
 		for(int i=0; i<TombStone.instance.tombList.size(); i++)
