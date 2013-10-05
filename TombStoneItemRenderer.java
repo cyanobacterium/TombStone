@@ -39,10 +39,13 @@ public class TombStoneItemRenderer implements IItemRenderer
             }
              
             case EQUIPPED:{
-                renderTombStoneItem(-0.5f, -1.05f, -0.5f, 1.5f);
+                renderTombStoneItem(0f, 1f, 1f, 1f);
                 return;
             }
-                 
+            case EQUIPPED_FIRST_PERSON:{
+            	renderTombStoneItem(0f, 0f, 0f, 1.0f);
+                return;
+            }
             case INVENTORY:{
                 renderTombStoneItem(0f, 0f, 0f, 1.0f);
                 return;

@@ -47,6 +47,12 @@ public class DeathEventHook {
 		int tombX = (int) Math.floor(deadPlayer.posX);
 		int tombY = (int) Math.floor(deadPlayer.posY);
 		int tombZ = (int) Math.floor(deadPlayer.posZ);
+		if(tombY < 0){
+			// You fell into the void! Sucks to be you.
+			return;
+		} else if(tombY > 255){
+			tombY = 255;
+		}
 		int rotation = TombStoneTileEntity.getRotationFromEntity(deadPlayer);
 		// get team info for security
 		Team t = deadPlayer.getTeam();
