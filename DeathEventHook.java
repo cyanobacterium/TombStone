@@ -75,7 +75,7 @@ public class DeathEventHook {
 		}
 		
 		String dateOfDeath = TombStone.dateFormat
-				.replace("m", world.getCurrentDate().get(Calendar.MONTH)+"")
+				.replace("m", (world.getCurrentDate().get(Calendar.MONTH)+1)+"")
 				.replace("d",  world.getCurrentDate().get(Calendar.DAY_OF_MONTH)+"")
 				.replace("y",  world.getCurrentDate().get(Calendar.YEAR)+"");
 		String deathMessage = attackSource.getDeathMessage(deadPlayer) + " here\n Died " + dateOfDeath;
