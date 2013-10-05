@@ -65,9 +65,9 @@ public class TombStoneItemRenderer implements IItemRenderer
 
     GL11.glScalef(scale, scale, scale);
 	
-    FMLClientHandler.instance().getClient().renderEngine.getTexture(TombStone.tombstoneTex1);
+    FMLClientHandler.instance().getClient().renderEngine.bindTexture(TombStone.tombstoneTex1);
 	this.modelBox.renderBase();
-	FMLClientHandler.instance().getClient().renderEngine.getTexture(TombStone.tombstoneTex2);
+	FMLClientHandler.instance().getClient().renderEngine.bindTexture(TombStone.tombstoneTex2);
 	this.modelBox.renderHeadstone();
 	
 	// re-enable lighting

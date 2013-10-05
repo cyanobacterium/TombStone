@@ -30,7 +30,7 @@ public class TombStoneGUI extends GuiContainer {
 		//draw your Gui here, only thing you need to change is the path
 		//int texture = mc.renderEngine.getTexture("/gui/container.png");// int version is private now
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.renderEngine.getTexture(TombStone.tombstoneGUI); 
+		this.mc.renderEngine.bindTexture(TombStone.tombstoneGUI); 
 		int x = (width - xSize) / 2;
 		int y = (height - ySize) / 2;
         this.drawTexturedModalRect(x, y, 0, 0, this.xSize, 6 * 18 + 17);
